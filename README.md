@@ -2,9 +2,10 @@
 
 A simple, minimal Chrome extension to switch between configured proxy profiles.
 
-Get it on [Chrome Web Store][1], or use the source to upload your own.
+This fork adds cycling through proxies by clicking the icon, see options.
 
-Bugs, comments, questions: create a [new issue][2].
+It is forked from https://github.com/StalkR/chrome-proxy-switcher
 
-[1]: https://chrome.google.com/webstore/detail/proxy-switcher/nfgjkknbjghcmeifdfocmofahdibbgae
-[2]: https://github.com/StalkR/chrome-proxy-switcher/issues/new
+## Installation
+
+Download or clone this repo, navigate to *[`chrome://extensions/`](chrome://extensions/)* , enable developer mode, click on `Load unpacked`, and select the downloaded folder (unzip before if you have downloaded a zip). Don't remove that folder!

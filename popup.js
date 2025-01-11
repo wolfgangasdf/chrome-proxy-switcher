@@ -1,11 +1,7 @@
-document.addEventListener("DOMContentLoaded", init, false);
+if (typeof document !== 'undefined') document.addEventListener("DOMContentLoaded", init, false);
 
 async function init() {
-  let settings = [
-    {mode: "direct"},
-    {mode: "system"},
-    {mode: "auto_detect"}
-  ].concat(await loadSettings());
+  let settings = await loadSettings();
   let selected = await loadSelected();
   for (let i = 0; i < settings.length; i++) {
     tableAdd(i, settings[i], selected);
@@ -20,15 +16,11 @@ function tableAdd(i, proxy, selected) {
   input.type = "radio";
   input.name = "choice";  // same name so only one selected at a time
   input.id = "proxy-" + i;
-  if (selected
-      && proxy.mode == selected.mode
-      && proxy.value == selected.value) {
+  if (selected && proxy.mode == selected.mode && proxy.value == selected.value) {
     input.checked = true;
   }
   input.onclick = function() {
     switchProxy(proxy);
-    chrome.action.setTitle({title: nameProxy(proxy)});
-    saveSelected(proxy);
   };
   td.appendChild(input);
   let label = document.createElement("label");
@@ -58,6 +50,9 @@ function nameProxy(proxy) {
 }
 
 function switchProxy(proxy) {
+  console.log("switch proxy ", proxy)
+  chrome.action.setTitle({title: nameProxy(proxy)});
+  saveSelected(proxy);
   let config = {mode: proxy.mode};
   switch (proxy.mode) {
     case "direct":

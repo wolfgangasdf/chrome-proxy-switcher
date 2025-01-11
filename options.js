@@ -16,6 +16,9 @@ function changeMode() {
   let container = document.getElementById("container");
   while (container.firstChild) container.removeChild(container.firstChild);
   switch (mode) {
+    case "direct": break;
+    case "system": break;
+    case "auto_detect": break;
     case "fixed_servers":
     case "pac_script":
       container.appendChild(document.createTextNode("URL: "));
@@ -50,10 +53,12 @@ function addProxy(settings) {
   let data = document.getElementById("data");
   let proxy = {
     mode: mode.value,
-    value: value.value,
+    value: ""
   };
-  value.value = "";
-  if (proxy.mode === "pac_script_data") {
+  if (proxy.mode === "fixed_servers" || proxy.mode === "pac_script") {
+    proxy.value = value.value;
+    value.value = "";
+  } else if (proxy.mode === "pac_script_data") {
     proxy.data = data.value;
     data.value = "";
   }
@@ -85,8 +90,7 @@ function tableAdd(proxy) {
   up.onclick = function() {
     let list = document.getElementById("list");
     let before = Array.prototype.slice.call(list.children).indexOf(tr) - 1;
-    // Keep Direct/System/Auto Detect at the top.
-    if (before < 3) before = 3;
+    if (before < 0) before = 0;
     list.insertBefore(tr, list.children[before]);
     save();
   };
@@ -111,6 +115,17 @@ function tableAdd(proxy) {
     save();
   };
   td.appendChild(down);
+  tr.appendChild(td);
+
+  td = document.createElement("td");
+  let cycle = document.createElement("input");
+  cycle.type = "checkbox";
+  cycle.checked = proxy.cycle;
+  cycle.onclick = function() {
+    save();
+  }
+  td.appendChild(cycle);
+  td.setAttribute("data-mode", proxy.cycle);
   tr.appendChild(td);
 
   tbody.insertBefore(tr, document.getElementById("last"));
@@ -143,7 +158,8 @@ function save() {
     let mode = tds[0].getAttribute("data-mode");
     if (!mode) continue;
     let value = tds[1].getAttribute("data-value");
-    let proxy = {mode: mode, value: value};
+    let cycle = tds[3].firstElementChild.checked;
+    let proxy = {mode: mode, value: value, cycle: cycle};
     if (mode === "pac_script_data") {
       proxy.data = tds[1].getAttribute("data-pac");
     }

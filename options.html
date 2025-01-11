@@ -13,28 +13,17 @@
       <th>Mode</th>
       <th>Value</th>
       <th></th>
+      <th>Cycle</th>
     </tr>
   </thead>
   <tbody id="list">
-    <tr>
-      <td>Direct</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>System</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Auto Detect</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
     <tr id="last">
       <td>
         <select id="mode">
-          <option value="fixed_servers" selected>Fixed server</option>
+          <option value="direct" selected>Direct</option>
+          <option value="system">System</option>
+          <option value="auto_detect">Auto Detect</option>
+          <option value="fixed_servers">Fixed server</option>
           <option value="pac_script">PAC URL</option>
           <option value="pac_script_data">PAC script</option>
         </select>
@@ -43,6 +32,7 @@
       <td>
         <input id="add" type="button" value="add">
       </td>
+      <td>-</td>
     </tr>
   </tbody>
 </table>
@@ -55,6 +45,9 @@ PAC URL no longer supports
 <i>file://</i>
 (<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=839566">#839566</a>),
 use PAC script instead and copy the contents.
+</p>
+<p>
+If at least two entries are selected for cycling, icon click cycles, otherwise a popup is shown.
 </p>
 </body>
 </html>

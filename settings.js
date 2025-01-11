@@ -8,6 +8,7 @@
 //                // URL for fixed_server/pac_script
 //                // friendly name for pac_script_data
 //     data:  "", //  pac_script_data, set by user
+//     cycle: "", // true/false if to include in cycle list
 //   }
 //
 // modes are named after https://developers.chrome.com/extensions/proxy#type-Mode
@@ -31,7 +32,20 @@ async function loadSettings() {
     let old = await syncGet("settings");
     if (old !== undefined) settings = old;
   }
+  updateIconClick(settings)
   return settings;
+}
+
+function updateIconClick(settings) {
+  ncycle = 0;
+  for (let i = 0; i < settings.length; i++) {
+      if (settings[i].cycle) ncycle += 1;
+  }
+  if (ncycle < 2) {
+      chrome.action.setPopup({popup: 'popup.html'});
+  } else {
+      chrome.action.setPopup({popup: ''});
+  }
 }
 
 async function saveSettings(settings) {
@@ -40,6 +54,7 @@ async function saveSettings(settings) {
   for (let i = 0; i < settings.length; i++) {
     await syncSet("proxy-" + i, settings[i]);
   }
+  updateIconClick(settings);
 }
 
 async function loadSelected() {
